@@ -1,0 +1,59 @@
+# Contributing
+
+How the packages fit together is in [.docs/ARCHITECTURE.md](.docs/ARCHITECTURE.md).
+
+## Run the checks the way CI does
+
+Everything runs in the `php` container:
+
+```sh
+docker compose run --rm php composer lint   # validate, normalize, Rector, PHP-CS-Fixer, PHPCS, PHPStan
+docker compose run --rm php composer test
+docker compose run --rm php composer audit --no-dev
+```
+
+CI runs the tests on PHP 8.2, 8.3, 8.4 and 8.5. A merge request can only merge with a green pipeline.
+
+## Rules that are not up for negotiation
+
+**Never edit a linter config to make an error go away.** Not `phpstan.neon`, `rector.php`, `phpcs.xml.dist` or `.php-cs-fixer.dist.php`. Fix the code. If a rule is wrong for this codebase, change it deliberately in its own commit.
+
+**Never silence PHPStan with `@phpstan-ignore`.**
+
+**The SDK never breaks the customer's page.** Nothing in a render path throws because of Varify. A failure (config, cache, cookie, unknown experiment) ends in the untracked original and, where there is one, a call to `onError`.
+
+**`varify-io/core` depends on nothing but `psr/simple-cache`** and no framework.
+
+**The bucketing formula and the cookie format don't change.** They are shared with varify-sdk-js; changing either moves visitors between variations of running experiments. `BucketTest` and `CookieCodecTest` pin them.
+
+**PHP 8.2 is the floor.** No typed class constants, `#[\Override]` or other 8.3+ syntax in `packages/`.
+
+## Code style in short
+
+- When two pieces don't fit, change the one that is wrong, usually the producer of the bad value, instead of wrapping it in an adapter, cast or guard. Prefer the fix that deletes code. Don't handle cases no current caller produces.
+- PHPStan runs at level max. Input from outside the SDK (the config file, cookies, query parameters, superglobals) is `mixed` or `string` until a parser such as `ConfigParser` or `CookieCodec` has turned it into typed objects.
+- No nullable return types; return a sentinel (`Config::unavailable()`, `State::anonymous()`, `VisitorId::none()`) instead.
+- `final` classes, `readonly` where possible, enums for closed sets. No named arguments.
+- The public API takes plain `int` ids (`positive-int` for PHPStan); value objects live inside.
+- Public API changes are breaking changes for customers. Add rather than rename.
+- No comments that say what the code does. A comment is for: security reasoning, framework behaviour, or an invariant a reader would otherwise "fix" away. Docblocks a tool reads (PHPStan types, array shapes) and docblocks on public API are fine. Never mention callers, sibling files or ordering.
+
+## Tests
+
+PHPUnit 11 (12 needs PHP 8.3), in `packages/*/tests`, one test file per class. Every test class carries `#[CoversClass]` and `#[Group]`; tests use `#[Test]`, camelCase names and `static::assert*()`. Each test reads Arrange, Act, Assert, separated by one blank line, and its name states the behaviour.
+
+For anything that renders or sets cookies, check it in the example app as well: `docker compose up example`.
+
+## Releases
+
+Not set up yet. The plan: a merge into `main` tags a version from the conventional commits and a split job pushes each `packages/*` folder to its read-only repository, which Packagist reads.
+
+## Branches
+
+Work on a branch off `develop` and finish it through a merge request into `develop`. `main` is the release branch. Never merge into `develop` or `main` locally.
+
+## Commits
+
+Conventional commits. Allowed types: `build`, `chore`, `docs`, `feat`, `fix`, `perf`, `refactor`, `release`, `style`, `test`, `update`. Body lines can be at most 100 characters.
+
+Write the message as the change, nothing else: no tool attribution, no generated-by footers. The body, when there is one, explains _why_; the diff already shows what changed. The same goes for merge request descriptions.

@@ -1,0 +1,41 @@
+includes:
+  - vendor/phpstan/phpstan-strict-rules/rules.neon
+  - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+  - vendor/ergebnis/phpstan-rules/rules.neon
+
+parameters:
+  tmpDir: .tools/cache/phpstan
+  level: max
+  phpVersion: 80200
+  paths:
+    - packages/core/src
+    - packages/core/tests
+    - examples
+
+  ergebnis:
+    final:
+      enabled: false
+    finalInAbstractClass:
+      enabled: false
+    noConstructorParameterWithDefaultValue:
+      enabled: false
+    noExtends:
+      enabled: false
+    noParameterWithNullableTypeDeclaration:
+      enabled: false
+    noParameterWithNullDefaultValue:
+      enabled: false
+    noSwitch:
+      enabled: false
+    noNamedArgument:
+      enabled: true
+    noPhpstanIgnore:
+      enabled: false
+    noParameterPassedByReference:
+      enabled: false
+    invokeParentHookMethod:
+      enabled: true
+
+conditionalTags:
+  PHPStan\Rules\DisallowedConstructs\DisallowedShortTernaryRule:
+    phpstan.rules.rule: false

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset name="Varify"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/squizlabs/php_codesniffer/phpcs.xsd">
+  <description>Varify Coding Standard</description>
+
+  <file>./packages/core/src</file>
+  <file>./packages/core/tests</file>
+  <file>./examples</file>
+
+  <arg name="colors"/>
+  <arg name="parallel" value="8"/>
+  <arg name="cache" value=".tools/cache/phpcs.json"/>
+  <arg name="extensions" value="php"/>
+  <arg name="severity" value="1"/>
+  <arg value="sp"/>
+
+  <config name="installed_paths" value="vendor/slevomat/coding-standard"/>
+
+  <rule ref="Generic.CodeAnalysis.AssignmentInCondition">
+    <type>error</type>
+  </rule>
+  <rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
+    <type>error</type>
+  </rule>
+  <rule ref="Generic.Commenting.Fixme"/>
+  <rule ref="Generic.Commenting.Todo"/>
+
+  <rule ref="SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion"/>
+  <rule ref="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature"/>
+  <rule ref="SlevomatCodingStandard.Classes.RequireSingleLineMethodSignature">
+    <properties>
+      <property name="maxLineLength" value="80"/>
+    </properties>
+  </rule>
+  <rule ref="SlevomatCodingStandard.Classes.SuperfluousInterfaceNaming"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.DisallowTrailingMultiLineTernaryOperator"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineCondition"/>
+  <rule ref="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax"/>
+  <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
+  <rule ref="SlevomatCodingStandard.Variables.DisallowVariableVariable"/>
+  <rule ref="SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable">
+    <exclude-pattern>packages/core/src/Request/Globals.php</exclude-pattern>
+  </rule>
+  <rule ref="SlevomatCodingStandard.Variables.DuplicateAssignmentToVariable"/>
+  <rule ref="SlevomatCodingStandard.Variables.UselessVariable"/>
+  <rule ref="SlevomatCodingStandard.Files.LineLength"/>
+</ruleset>

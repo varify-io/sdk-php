@@ -1,0 +1,44 @@
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
+stages:
+  - test
+
+default:
+  interruptible: true
+
+.php:
+  image: php:${PHP_VERSION}-cli
+  variables:
+    PHP_VERSION: '8.2'
+    COMPOSER_CACHE_DIR: '$CI_PROJECT_DIR/.composer-cache'
+  cache:
+    key: composer-$PHP_VERSION
+    paths:
+      - .composer-cache
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends git unzip
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - composer install --no-interaction --no-progress
+
+test:lint:
+  extends: .php
+  stage: test
+  script:
+    - composer lint
+
+test:unit:
+  extends: .php
+  stage: test
+  parallel:
+    matrix:
+      - PHP_VERSION: ['8.2', '8.3', '8.4', '8.5']
+  script:
+    - composer test
+
+test:audit:
+  extends: .php
+  stage: test
+  script:
+    - composer audit --no-dev

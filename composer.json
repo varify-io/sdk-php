@@ -1,0 +1,70 @@
+{
+    "name": "varify-io/varify-sdk-php",
+    "description": "Monorepo of the Varify server-side SDKs for PHP",
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "psr/simple-cache": "^3.0"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.56",
+        "ergebnis/phpstan-rules": "^2.17",
+        "php-cs-fixer/shim": "^3.95",
+        "phpstan/phpstan": "^2.3",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.1",
+        "phpunit/phpunit": "^11.5",
+        "rector/rector": "^2.8",
+        "slevomat/coding-standard": "^8.31",
+        "squizlabs/php_codesniffer": "^4.0"
+    },
+    "replace": {
+        "varify-io/core": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "Varify\\Core\\": "packages/core/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Varify\\Core\\Tests\\": "packages/core/tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "lint": [
+            "composer validate --strict",
+            "composer normalize --dry-run",
+            "composer normalize --dry-run packages/core/composer.json",
+            "@rector",
+            "@phpcsfixer",
+            "@phpcs",
+            "@phpstan"
+        ],
+        "lint:fix": [
+            "composer normalize",
+            "composer normalize packages/core/composer.json",
+            "@rector:fix",
+            "@phpcsfixer:fix",
+            "@phpcs:fix"
+        ],
+        "phpcs": "phpcs",
+        "phpcs:fix": "phpcbf",
+        "phpcsfixer": "php-cs-fixer fix --dry-run --diff",
+        "phpcsfixer:fix": "php-cs-fixer fix",
+        "phpstan": "phpstan analyse --memory-limit=1G",
+        "rector": "rector process --dry-run",
+        "rector:fix": "rector process",
+        "test": "phpunit"
+    }
+}

@@ -1,0 +1,8 @@
+/vendor/
+/composer.lock
+/.tools/cache/
+/examples/plain-php/.env
+.DS_Store
+.idea/
+.claude/settings.local.json
+AGENTS.local.md

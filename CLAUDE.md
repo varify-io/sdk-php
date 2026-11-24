@@ -1,0 +1,5 @@
+@AGENTS.md
+@README.md
+@CONTRIBUTING.md
+@.docs/ARCHITECTURE.md
+@AGENTS.local.md

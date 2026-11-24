@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory=".tools/cache/phpunit"
+         colors="true"
+         requireCoverageMetadata="true"
+         beStrictAboutCoverageMetadata="true"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         failOnDeprecation="true"
+         failOnNotice="true">
+  <testsuites>
+    <testsuite name="core">
+      <directory>packages/core/tests</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory>packages/core/src</directory>
+    </include>
+  </source>
+</phpunit>
