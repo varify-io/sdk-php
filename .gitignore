@@ -6,3 +6,5 @@
 .idea/
 .claude/settings.local.json
 AGENTS.local.md
+/examples/shopware-app/project/
+/examples/shopware-app/.env

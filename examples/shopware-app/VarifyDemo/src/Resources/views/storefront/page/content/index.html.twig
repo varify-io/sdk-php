@@ -1,0 +1,13 @@
+{% sw_extends '@Storefront/storefront/page/content/index.html.twig' %}
+
+{% block page_content %}
+    <div class="container" style="padding: 16px 0">
+        {% if varify_is(269, 311) %}
+            <div class="alert alert-success">Varify: variation 311</div>
+        {% else %}
+            <div class="alert alert-info">Varify: original</div>
+        {% endif %}
+    </div>
+
+    {{ parent() }}
+{% endblock %}

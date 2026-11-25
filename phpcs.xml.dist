@@ -6,7 +6,11 @@
 
   <file>./packages/core/src</file>
   <file>./packages/core/tests</file>
+  <file>./packages/shopware/src</file>
+  <file>./packages/shopware/tests</file>
   <file>./examples</file>
+
+  <exclude-pattern>examples/shopware-app/project/*</exclude-pattern>
 
   <arg name="colors"/>
   <arg name="parallel" value="8"/>

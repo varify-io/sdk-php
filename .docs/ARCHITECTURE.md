@@ -5,7 +5,7 @@ How the SDK assigns and tracks a visitor. The reasoning behind each decision is 
 ## Packages
 
 - **`varify-io/core`** knows nothing about frameworks: it loads the config, parses untrusted input, evaluates assignments and renders the tracking snippet. Its only dependency is the `psr/simple-cache` interface. It never throws into a render: every failure ends in "show the original, track nothing".
-- **`varify-io/shopware`** (planned) owns everything Shopware-specific: the request subscriber, the HTTP cache key, Twig functions and settings.
+- **`varify-io/shopware`** owns everything Shopware-specific: one `Varify` per request (`VarifyRequestContext`), the cookie and tracking snippet (`ResponseSubscriber`), the HTTP cache variant (`HttpCacheSubscriber`), Twig functions and settings. Its user-facing caching behaviour is documented in [its README](../packages/shopware/README.md#behaviour-to-know); the reasoning is in the plan's Caching section.
 
 An integration builds on `core` and doesn't reach into another integration.
 

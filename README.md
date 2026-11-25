@@ -5,7 +5,7 @@ PHP SDKs for running Varify experiments on the server: the visitor is assigned w
 | Package                              | What it is                                                                                     |
 | ------------------------------------ | ---------------------------------------------------------------------------------------------- |
 | [`varify-io/core`](packages/core)    | Framework-agnostic: loads the delivery file, buckets visitors locally, keeps assignments sticky |
-| `varify-io/shopware` (planned)       | Shopware 6.7 plugin on top of the core                                                         |
+| [`varify-io/shopware`](packages/shopware) | Shopware 6.7 plugin: Twig functions, cookie, HTTP-cache variants, tracking snippet       |
 
 Each package is published to Packagist from a read-only split repository; this monorepo is where they are developed. [`examples/plain-php`](examples/plain-php) uses the core against a real delivery file. The package READMEs are the user documentation.
 
@@ -38,6 +38,8 @@ docker compose up example   # http://localhost:8080
 ```
 
 `.env.example` points at a local laravel-spark; drop `VARIFY_CONFIG_URL` to read from `https://delivery.varify.io`. Set `VARIFY_SCRIPT_URL` and `VARIFY_IID` to load varify.js and see exposures tracked.
+
+The Shopware plugin has its own example shop (Shopware 6.7.10.2, prod mode, HTTP cache on): `examples/shopware-app/setup.sh`, see [its README](examples/shopware-app/README.md).
 
 ## Contributing
 

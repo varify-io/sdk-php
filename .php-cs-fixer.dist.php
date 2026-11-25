@@ -6,8 +6,11 @@ $finder = (new PhpCsFixer\Finder())
     ->in([
         __DIR__ . '/packages/core/src',
         __DIR__ . '/packages/core/tests',
+        __DIR__ . '/packages/shopware/src',
+        __DIR__ . '/packages/shopware/tests',
         __DIR__ . '/examples',
     ])
+    ->exclude('shopware-app/project')
 ;
 
 return (new PhpCsFixer\Config())

@@ -15,10 +15,14 @@
     <testsuite name="core">
       <directory>packages/core/tests</directory>
     </testsuite>
+    <testsuite name="shopware">
+      <directory>packages/shopware/tests</directory>
+    </testsuite>
   </testsuites>
   <source>
     <include>
       <directory>packages/core/src</directory>
+      <directory>packages/shopware/src</directory>
     </include>
   </source>
 </phpunit>

@@ -1,0 +1,28 @@
+# Copied into project/ by setup.sh. Ports move off 8000/8080, which laravel-spark and the plain-PHP example use.
+services:
+  database:
+    ports:
+      - '3306'
+
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - '1025'
+      - '8025'
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+  web:
+    image: ghcr.io/shopware/docker-dev:php8.3-node24-caddy
+    ports: !override
+      - '8001:8000'
+    volumes:
+      - ../../../packages:/var/www/varify-packages
+      - ../VarifyDemo:/var/www/html/custom/plugins/VarifyDemo
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  adminer:
+    ports: !override
+      - '9081:8080'

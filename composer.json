@@ -18,26 +18,33 @@
         "phpstan/phpstan-strict-rules": "^2.1",
         "phpunit/phpunit": "^11.5",
         "rector/rector": "^2.8",
+        "shopware/core": ">=6.7.10.0 <6.8.0.0",
+        "shopware/storefront": ">=6.7.10.0 <6.8.0.0",
         "slevomat/coding-standard": "^8.31",
         "squizlabs/php_codesniffer": "^4.0"
     },
     "replace": {
-        "varify-io/core": "self.version"
+        "varify-io/core": "self.version",
+        "varify-io/shopware": "self.version"
     },
     "autoload": {
         "psr-4": {
-            "Varify\\Core\\": "packages/core/src/"
+            "Varify\\Core\\": "packages/core/src/",
+            "Varify\\Shopware\\": "packages/shopware/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Varify\\Core\\Tests\\": "packages/core/tests/"
+            "Varify\\Core\\Tests\\": "packages/core/tests/",
+            "Varify\\Shopware\\Tests\\": "packages/shopware/tests/"
         }
     },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": false,
-            "ergebnis/composer-normalize": true
+            "ergebnis/composer-normalize": true,
+            "php-http/discovery": false,
+            "symfony/runtime": false
         },
         "sort-packages": true
     },
@@ -46,6 +53,7 @@
             "composer validate --strict",
             "composer normalize --dry-run",
             "composer normalize --dry-run packages/core/composer.json",
+            "composer normalize --dry-run packages/shopware/composer.json",
             "@rector",
             "@phpcsfixer",
             "@phpcs",
@@ -54,6 +62,7 @@
         "lint:fix": [
             "composer normalize",
             "composer normalize packages/core/composer.json",
+            "composer normalize packages/shopware/composer.json",
             "@rector:fix",
             "@phpcsfixer:fix",
             "@phpcs:fix"

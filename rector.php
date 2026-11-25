@@ -12,6 +12,8 @@ return RectorConfig::configure()
     ->withPaths([
         __DIR__ . '/packages/core/src',
         __DIR__ . '/packages/core/tests',
+        __DIR__ . '/packages/shopware/src',
+        __DIR__ . '/packages/shopware/tests',
         __DIR__ . '/examples',
     ])
     ->withCache(__DIR__ . '/.tools/cache/rector')
@@ -21,6 +23,7 @@ return RectorConfig::configure()
     ])
     ->withImportNames()
     ->withSkip([
+        __DIR__ . '/examples/shopware-app/project',
         ClosureToArrowFunctionRector::class,
         PreferPHPUnitThisCallRector::class,
         // Conflicts with PHPStan, as in laravel-spark.

@@ -10,6 +10,10 @@ parameters:
   paths:
     - packages/core/src
     - packages/core/tests
+    - packages/shopware/src
+    - packages/shopware/tests
+  excludePaths:
+    - examples/shopware-app/project
     - examples
 
   ergebnis:

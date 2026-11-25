@@ -19,6 +19,8 @@ default:
       - .composer-cache
   before_script:
     - apt-get update && apt-get install -y --no-install-recommends git unzip
+    - curl -sSLo /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions
+    - chmod +x /usr/local/bin/install-php-extensions && install-php-extensions gd intl pdo_mysql zip
     - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     - composer install --no-interaction --no-progress
 
