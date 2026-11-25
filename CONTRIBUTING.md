@@ -9,10 +9,10 @@ Everything runs in the `php` container:
 ```sh
 docker compose run --rm php composer lint   # validate, normalize, Rector, PHP-CS-Fixer, PHPCS, PHPStan
 docker compose run --rm php composer test
-docker compose run --rm php composer audit --no-dev
+docker compose run --rm php composer audit --no-dev   # blocks a release; plain composer audit also runs, without blocking
 ```
 
-CI runs the tests on PHP 8.2, 8.3, 8.4 and 8.5. A merge request can only merge with a green pipeline.
+CI runs the tests on PHP 8.2, 8.3, 8.4 and 8.5. It also runs betterleaks over the git history and a Trivy secret scan. A merge request can only merge with a green pipeline.
 
 ## Rules that are not up for negotiation
 

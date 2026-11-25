@@ -5,6 +5,12 @@ workflow:
 stages:
   - test
 
+variables:
+  # renovate: datasource=docker depName=ghcr.io/aquasecurity/trivy
+  TRIVY_VERSION: 0.74.0
+  # renovate: datasource=docker depName=ghcr.io/betterleaks/betterleaks
+  BETTERLEAKS_VERSION: 1.8.1
+
 default:
   interruptible: true
 
@@ -44,3 +50,43 @@ test:audit:
   stage: test
   script:
     - composer audit --no-dev
+
+# Dev tooling never reaches customers, so its advisories are reported without blocking a release.
+test:audit:dev:
+  extends: .php
+  stage: test
+  allow_failure: true
+  script:
+    - composer audit
+
+betterleaks:
+  stage: test
+  image:
+    name: ghcr.io/betterleaks/betterleaks:v$BETTERLEAKS_VERSION
+    entrypoint: ['']
+  needs: []
+  variables:
+    GIT_DEPTH: 0
+  script:
+    - betterleaks git . --no-banner -v --redact=100 --log-opts=HEAD
+
+trivy-secrets:
+  stage: test
+  image:
+    name: ghcr.io/aquasecurity/trivy:$TRIVY_VERSION
+    entrypoint: ['']
+  needs: []
+  variables:
+    TRIVY_CACHE_DIR: .tools/cache/trivy
+    TRIVY_NO_PROGRESS: 'true'
+  cache:
+    - key: trivy-db-$TRIVY_VERSION
+      when: always
+      paths:
+        - .tools/cache/trivy/
+  script:
+    - trivy filesystem --scanners secret
+      --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+      --secret-config .trivy/secret-config.yaml
+      --table-mode detailed
+      .
