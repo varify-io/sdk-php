@@ -72,11 +72,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      # Same user as the checkout, or git refuses the repository as having dubious ownership.
       - run: >
-          docker run --rm -v "$PWD:/repo" -w /repo --entrypoint ''
+          docker run --rm -v "$PWD:/repo" -w /repo --user "$(id -u):$(id -g)"
           "ghcr.io/betterleaks/betterleaks:v$BETTERLEAKS_VERSION"
-          sh -c 'git config --global --add safe.directory /repo
-          && betterleaks git . --no-banner -v --redact=100 --log-opts=HEAD'
+          git . --no-banner -v --redact=100 --log-opts=HEAD
 
   trivy-secrets:
     runs-on: ubuntu-24.04
