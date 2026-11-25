@@ -1,0 +1,30 @@
+name: Set up PHP
+description: PHP with the extensions Shopware needs, and the Composer dependencies installed.
+
+inputs:
+  php-version:
+    description: PHP version
+    default: '8.2'
+
+runs:
+  using: composite
+  steps:
+    - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+      with:
+        php-version: ${{ inputs.php-version }}
+        extensions: curl, gd, intl, pdo_mysql, zip
+        tools: composer:v2
+        coverage: none
+
+    - id: composer-cache
+      shell: bash
+      run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+    - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: composer-${{ inputs.php-version }}-${{ hashFiles('composer.json', 'packages/*/composer.json') }}
+        restore-keys: composer-${{ inputs.php-version }}-
+
+    - shell: bash
+      run: composer install --no-interaction --no-progress

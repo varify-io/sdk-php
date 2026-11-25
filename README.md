@@ -9,7 +9,7 @@ PHP SDKs for running Varify experiments on the server: the visitor is assigned w
 
 Each package is published to Packagist from a read-only split repository; this monorepo is where they are developed. [`examples/plain-php`](examples/plain-php) uses the core against a real delivery file. The package READMEs are the user documentation.
 
-Design and decisions: [PHP & Shopware SDK v1 plan](https://claude.ai/artifact/JgkbbQ4FhshMyvw5c7aT9V). The JavaScript counterpart is [varify-sdk-js](https://gitlab.com/varify/varify-sdk-js); both SDKs must assign a visitor identically.
+The JavaScript counterpart is varify-sdk-js; both SDKs must assign a visitor identically.
 
 ## Setup
 

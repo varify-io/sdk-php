@@ -12,7 +12,7 @@ If an `AGENTS.local.md` exists, read it too. It is personal and untracked. It ma
 
 **Never edit a linter config to get past an error.** Fix the code. If the rule itself is wrong, stop and say so.
 
-**Commit only when asked, and never push without a go-ahead.** Publishing, pushing, and anything else on GitLab or Packagist is the person's call. Show the command and wait.
+**Commit only when asked, and never push without a go-ahead.** Publishing, pushing, and anything else on GitHub or Packagist is the person's call. Show the command and wait.
 
 **Never discard uncommitted work.** Before `git reset --hard`, `git checkout -- <path>`, `git restore` or `git clean`, run `git status` as a separate step and read it. Prefer `git reset --keep`. To undo your own change in a file, rewrite your part; never revert the file, because it may also hold the person's work.
 

@@ -12,7 +12,7 @@ docker compose run --rm php composer test
 docker compose run --rm php composer audit --no-dev   # blocks a release; plain composer audit also runs, without blocking
 ```
 
-CI runs the tests on PHP 8.2, 8.3, 8.4 and 8.5. It also runs betterleaks over the git history and a Trivy secret scan. A merge request can only merge with a green pipeline.
+CI runs the tests on PHP 8.2, 8.3, 8.4 and 8.5. It also runs betterleaks over the git history and a Trivy secret scan. A pull request can only merge with green checks.
 
 ## Rules that are not up for negotiation
 
@@ -46,14 +46,23 @@ For anything that renders or sets cookies, check it in the example app as well: 
 
 ## Releases
 
-Not set up yet. The plan: a merge into `main` tags a version from the conventional commits and a split job pushes each `packages/*` folder to its read-only repository, which Packagist reads.
+Every push to `main` runs `scripts/release.sh` once the checks pass. Each package has its own version:
+
+- A package is released when files in its folder changed since its last tag (`varify-io/core@0.1.0`). Tests and `chore`/`test`/`style` commits don't count.
+- The commit types decide the bump: `fix` a patch, `feat` a minor. Below 1.0 a breaking change bumps the minor, which Composer's `^0.y` treats as breaking.
+- git-cliff (`cliff.toml`) writes the package's `CHANGELOG.md`, the job commits it as `chore(release): publish [skip ci]`, tags it and creates a GitHub release.
+- Each `packages/*` folder is then pushed to its read-only split repository (`varify-io/sdk-php-core`, `varify-io/sdk-php-shopware`) with a `v0.1.0` tag, which Packagist reads.
+
+When the plugin needs a new core feature that bumped core's minor, raise its `varify-io/core` constraint in the same change.
+
+`DRY_RUN=1 scripts/release.sh` in a scratch clone commits and tags locally and prints what it would push.
 
 ## Branches
 
-Work on a branch off `develop` and finish it through a merge request into `develop`. `main` is the release branch. Never merge into `develop` or `main` locally.
+Work on a branch off `develop` and finish it through a pull request into `develop`. `main` is the release branch. Never merge into `develop` or `main` locally.
 
 ## Commits
 
 Conventional commits. Allowed types: `build`, `chore`, `docs`, `feat`, `fix`, `perf`, `refactor`, `release`, `style`, `test`, `update`. Body lines can be at most 100 characters.
 
-Write the message as the change, nothing else: no tool attribution, no generated-by footers. The body, when there is one, explains _why_; the diff already shows what changed. The same goes for merge request descriptions.
+Write the message as the change, nothing else: no tool attribution, no generated-by footers. The body, when there is one, explains _why_; the diff already shows what changed. The same goes for pull request descriptions.

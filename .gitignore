@@ -1,6 +1,7 @@
 /vendor/
 /composer.lock
 /.tools/cache/
+/.tools/release/
 /examples/plain-php/.env
 .DS_Store
 .idea/

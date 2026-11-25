@@ -1,0 +1,37 @@
+[changelog]
+header = "# Changelog\n\n"
+body = """
+{% if version %}\
+## {{ version | split(pat="@") | last }} ({{ timestamp | date(format="%Y-%m-%d") }})
+{% else %}\
+## Unreleased
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group | striptags | trim }}
+{% for commit in commits %}
+- {% if commit.scope %}**{{ commit.scope }}:** {% endif %}{{ commit.message | upper_first }}{% if commit.breaking %} (breaking){% endif %}\
+{% endfor %}
+{% endfor %}\n
+"""
+trim = true
+
+[git]
+conventional_commits = true
+filter_unconventional = true
+filter_commits = true
+commit_parsers = [
+  { message = "^feat", group = "<!-- 0 -->Features" },
+  { message = "^fix", group = "<!-- 1 -->Bug Fixes" },
+  { message = "^perf", group = "<!-- 2 -->Performance" },
+  { message = "^update", group = "<!-- 3 -->Update" },
+  { message = "^refactor", group = "<!-- 4 -->Refactor" },
+  { message = "^build", group = "<!-- 5 -->Build" },
+  { message = "^docs", group = "<!-- 6 -->Docs" },
+  { message = "^(style|test|chore|release)", skip = true },
+]
+sort_commits = "oldest"
+
+[bump]
+features_always_bump_minor = true
+# 0.x stays 0.x: a breaking change bumps the minor, as Composer's ^0.y expects.
+breaking_always_bump_major = false
