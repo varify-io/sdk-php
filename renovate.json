@@ -24,6 +24,11 @@
       "enabled": false
     },
     {
+      "description": "Only offer versions that still run on our minimum PHP; raising require.php unlocks the rest",
+      "matchDatasources": ["packagist"],
+      "constraintsFiltering": "strict"
+    },
+    {
       "description": "PHP_VERSION picks the image per build, and its default is the supported minimum",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["php"],
