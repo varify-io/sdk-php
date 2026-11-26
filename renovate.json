@@ -24,6 +24,12 @@
       "enabled": false
     },
     {
+      "description": "PHP_VERSION picks the image per build, and its default is the supported minimum",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["php"],
+      "enabled": false
+    },
+    {
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
     },
