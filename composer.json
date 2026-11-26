@@ -10,18 +10,18 @@
         "psr/simple-cache": "^3.0"
     },
     "require-dev": {
-        "ergebnis/composer-normalize": "^2.56",
-        "ergebnis/phpstan-rules": "^2.17",
-        "php-cs-fixer/shim": "^3.95",
+        "ergebnis/composer-normalize": "2.59.0",
+        "ergebnis/phpstan-rules": "2.19.0",
+        "php-cs-fixer/shim": "3.95.32",
         "phpstan/phpstan": "^2.3",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-strict-rules": "^2.1",
-        "phpunit/phpunit": "^11.5",
-        "rector/rector": "^2.8",
+        "phpunit/phpunit": "11.5.58",
+        "rector/rector": "2.9.2",
         "shopware/core": ">=6.7.10.0 <6.8.0.0",
         "shopware/storefront": ">=6.7.10.0 <6.8.0.0",
-        "slevomat/coding-standard": "^8.31",
-        "squizlabs/php_codesniffer": "^4.0"
+        "slevomat/coding-standard": "8.32.0",
+        "squizlabs/php_codesniffer": "4.0.4"
     },
     "replace": {
         "varify-io/core": "self.version",
