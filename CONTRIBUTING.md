@@ -78,3 +78,7 @@ Work on a branch off `develop` and finish it through a pull request into `develo
 Conventional commits. Allowed types: `build`, `chore`, `docs`, `feat`, `fix`, `perf`, `refactor`, `release`, `style`, `test`, `update`. Body lines can be at most 100 characters.
 
 Write the message as the change, nothing else: no tool attribution, no generated-by footers. The body, when there is one, explains _why_; the diff already shows what changed. The same goes for pull request descriptions.
+
+## Dependencies
+
+Renovate opens pull requests into `develop` every two hours, run from [varify-io/renovate](https://github.com/varify-io/renovate); the Dependency Dashboard issue lists what is pending, and majors wait there for approval. New releases wait 5 days. There is no `composer.lock`, so the root `require-dev` is pinned to keep CI reproducible, while the published packages keep ranges so customers can resolve them together. The Shopware constraints and `examples/shopware-app` follow the supported Shopware versions and are updated by hand.

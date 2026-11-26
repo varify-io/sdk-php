@@ -1,0 +1,44 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "minimumReleaseAge": "5 days",
+  "pinDigests": true,
+  "extends": [":prConcurrentLimit10", "customManagers:githubActionsVersions"],
+  "rebaseWhen": "conflicted",
+  "ignorePaths": ["examples/shopware-app/**"],
+  "packageRules": [
+    {
+      "description": "Published packages widen their ranges so customers can resolve them together",
+      "matchFileNames": ["packages/**", "composer.json"],
+      "matchDepTypes": ["require"],
+      "rangeStrategy": "widen"
+    },
+    {
+      "description": "There is no composer.lock, so pinned dev tooling is what keeps CI reproducible",
+      "matchFileNames": ["composer.json"],
+      "matchDepTypes": ["require-dev"],
+      "rangeStrategy": "pin"
+    },
+    {
+      "description": "The Shopware range follows the plugin's supported versions, not the latest release",
+      "matchPackageNames": ["shopware/core", "shopware/storefront"],
+      "enabled": false
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "matchUpdateTypes": ["pinDigest"],
+      "groupName": "container image digests"
+    },
+    {
+      "groupName": "phpstan",
+      "matchPackageNames": ["/^phpstan\\//"]
+    },
+    {
+      "groupName": "composer dependencies",
+      "matchManagers": ["composer"],
+      "matchUpdateTypes": ["minor", "patch"]
+    }
+  ]
+}
