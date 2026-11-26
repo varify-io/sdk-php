@@ -57,9 +57,21 @@ When the plugin needs a new core feature that bumped core's minor, raise its `va
 
 `DRY_RUN=1 scripts/release.sh` in a scratch clone commits and tags locally and prints what it would push.
 
+### Releasing
+
+A repository admin releases once `develop` is green, then brings the release commit back:
+
+```sh
+git push origin develop:main
+# after the release job:
+git fetch origin && git push origin origin/main:develop
+```
+
+Neither direction goes through a pull request: GitHub's rebase merge recreates the commits with new SHAs, and `main` and `develop` would no longer fast-forward into each other. `main` takes only fast-forwards of commits whose checks passed. If something was merged into `develop` while the job ran, the push back is rejected; rebase those commits onto `main` and force-push `develop`.
+
 ## Branches
 
-Work on a branch off `develop` and finish it through a pull request into `develop`. `main` is the release branch. Never merge into `develop` or `main` locally.
+Work on a branch off `develop` and finish it through a pull request into `develop`. `main` is the release branch and only moves as described under [Releasing](#releasing). Never merge into `develop` or `main` locally.
 
 ## Commits
 
