@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "minimumReleaseAge": "5 days",
   "pinDigests": true,
-  "extends": [":prConcurrentLimit10", "customManagers:githubActionsVersions"],
+  "extends": [":prConcurrentLimit10", ":semanticPrefixFixDepsChoreOthers", "customManagers:githubActionsVersions"],
   "rebaseWhen": "conflicted",
   "ignorePaths": ["examples/shopware-app/**"],
   "packageRules": [
